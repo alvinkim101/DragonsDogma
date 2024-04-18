@@ -85,4 +85,9 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<UDragonsDogmaAttributeSet> AttributeSet;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "GAS")
+	TSubclassOf<class UGameplayEffect> DefaultAttributes;
+
+	void InitializeAttributes();
 };
