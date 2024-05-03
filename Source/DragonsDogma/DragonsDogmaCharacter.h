@@ -89,5 +89,20 @@ protected:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "GAS")
 	TSubclassOf<class UGameplayEffect> DefaultAttributes;
 
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "GAS")
+	TArray<TSubclassOf<class UGameplayAbility>> CharacterAbilities;
+
 	void InitializeAttributes();
+
+	void AddCharacterAbilities();
+
+	// Input
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GAS|Input", meta = (AllowPrivateAccess = "true"))
+	UInputMappingContext* GreatswordMappingContext;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GAS|Input", meta = (AllowPrivateAccess = "true"))
+	UInputAction* GreatswordComboAction;
+
+	UFUNCTION()
+	void GreatswordCombo();
 };

@@ -70,10 +70,13 @@ void ADragonsDogmaCharacter::BeginPlay()
 		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
 		{
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
+
+			Subsystem->AddMappingContext(GreatswordMappingContext, 0);
 		}
 	}
 
 	InitializeAttributes();
+	AddCharacterAbilities();
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -93,6 +96,9 @@ void ADragonsDogmaCharacter::SetupPlayerInputComponent(UInputComponent* PlayerIn
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ADragonsDogmaCharacter::Look);
+
+		// GAS
+		EnhancedInputComponent->BindAction(GreatswordComboAction, ETriggerEvent::Triggered, this, &ADragonsDogmaCharacter::GreatswordCombo);
 	}
 	else
 	{
@@ -162,6 +168,62 @@ void ADragonsDogmaCharacter::InitializeAttributes()
 		if (NewHandle.IsValid())
 		{
 			FActiveGameplayEffectHandle ActiveGEHandle = AbilitySystemComponent->ApplyGameplayEffectSpecToTarget(*NewHandle.Data.Get(), AbilitySystemComponent.Get());
+		}
+	}
+}
+
+void ADragonsDogmaCharacter::AddCharacterAbilities()
+{
+	for (TSubclassOf<UGameplayAbility>& StartupAbility : CharacterAbilities)
+	{
+		AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(StartupAbility, 1, INDEX_NONE, this));
+	}
+}
+
+void ADragonsDogmaCharacter::GreatswordCombo()
+{
+	if (AbilitySystemComponent->HasMatchingGameplayTag(FGameplayTag::RequestGameplayTag(FName("Ability.Greatsword.Combo2"))) && AbilitySystemComponent->HasMatchingGameplayTag(FGameplayTag::RequestGameplayTag(FName("Ability.Greatsword.Comboable"))))
+	{
+		const FGameplayTag AbilityTag = FGameplayTag::RequestGameplayTag(FName("Ability.Greatsword.Combo3"));
+		TArray<FGameplayAbilitySpec*> AbilitiesToActivate;
+		AbilitySystemComponent->GetActivatableGameplayAbilitySpecsByAllMatchingTags(AbilityTag.GetSingleTagContainer(), AbilitiesToActivate);
+
+		for (auto GameplayAbilitySpec : AbilitiesToActivate)
+		{
+			if (!GameplayAbilitySpec->IsActive())
+			{
+				AbilitySystemComponent->TryActivateAbility(GameplayAbilitySpec->Handle);
+			}
+		}
+	}
+
+	else if (AbilitySystemComponent->HasMatchingGameplayTag(FGameplayTag::RequestGameplayTag(FName("Ability.Greatsword.Combo1"))) && AbilitySystemComponent->HasMatchingGameplayTag(FGameplayTag::RequestGameplayTag(FName("Ability.Greatsword.Comboable"))))
+	{
+		const FGameplayTag AbilityTag = FGameplayTag::RequestGameplayTag(FName("Ability.Greatsword.Combo2"));
+		TArray<FGameplayAbilitySpec*> AbilitiesToActivate;
+		AbilitySystemComponent->GetActivatableGameplayAbilitySpecsByAllMatchingTags(AbilityTag.GetSingleTagContainer(), AbilitiesToActivate);
+
+		for (auto GameplayAbilitySpec : AbilitiesToActivate)
+		{
+			if (!GameplayAbilitySpec->IsActive())
+			{
+				AbilitySystemComponent->TryActivateAbility(GameplayAbilitySpec->Handle);
+			}
+		}
+	}
+
+	else if (!AbilitySystemComponent->HasMatchingGameplayTag(FGameplayTag::RequestGameplayTag(FName("Ability.Greatsword"))))
+	{
+		const FGameplayTag AbilityTag = FGameplayTag::RequestGameplayTag(FName("Ability.Greatsword.Combo1"));
+		TArray<FGameplayAbilitySpec*> AbilitiesToActivate;
+		AbilitySystemComponent->GetActivatableGameplayAbilitySpecsByAllMatchingTags(AbilityTag.GetSingleTagContainer(), AbilitiesToActivate);
+
+		for (auto GameplayAbilitySpec : AbilitiesToActivate)
+		{
+			if (!GameplayAbilitySpec->IsActive())
+			{
+				AbilitySystemComponent->TryActivateAbility(GameplayAbilitySpec->Handle);
+			}
 		}
 	}
 }
