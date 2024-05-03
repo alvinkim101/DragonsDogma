@@ -88,8 +88,8 @@ void ADragonsDogmaCharacter::SetupPlayerInputComponent(UInputComponent* PlayerIn
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent)) {
 		
 		// Jumping
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ADragonsDogmaCharacter::Jump);
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ADragonsDogmaCharacter::StopJumping);
 
 		// Moving
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ADragonsDogmaCharacter::Move);
@@ -142,6 +142,22 @@ void ADragonsDogmaCharacter::Look(const FInputActionValue& Value)
 	}
 }
 
+void ADragonsDogmaCharacter::Jump()
+{
+	if (!AbilitySystemComponent->HasMatchingGameplayTag(FGameplayTag::RequestGameplayTag(FName("Ability.Greatsword"))))
+	{
+		ACharacter::Jump();
+	}
+}
+
+void ADragonsDogmaCharacter::StopJumping()
+{
+	if (!AbilitySystemComponent->HasMatchingGameplayTag(FGameplayTag::RequestGameplayTag(FName("Ability.Greatsword"))))
+	{
+		ACharacter::StopJumping();
+	}
+}
+
 UAbilitySystemComponent* ADragonsDogmaCharacter::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
@@ -182,6 +198,11 @@ void ADragonsDogmaCharacter::AddCharacterAbilities()
 
 void ADragonsDogmaCharacter::GreatswordCombo()
 {
+	if (GetCharacterMovement()->IsFalling())
+	{
+		return;
+	}
+
 	if (AbilitySystemComponent->HasMatchingGameplayTag(FGameplayTag::RequestGameplayTag(FName("Ability.Greatsword.Combo2"))) && AbilitySystemComponent->HasMatchingGameplayTag(FGameplayTag::RequestGameplayTag(FName("Ability.Greatsword.Comboable"))))
 	{
 		const FGameplayTag AbilityTag = FGameplayTag::RequestGameplayTag(FName("Ability.Greatsword.Combo3"));

@@ -79,6 +79,10 @@ public:
 
 	virtual void PossessedBy(AController* NewController) override;
 
+	virtual void Jump() override;
+
+	virtual void StopJumping() override;
+
 protected:
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
