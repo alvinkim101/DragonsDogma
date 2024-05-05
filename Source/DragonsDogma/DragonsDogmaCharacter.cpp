@@ -54,9 +54,6 @@ ADragonsDogmaCharacter::ADragonsDogmaCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
-
-	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
-	AttributeSet = CreateDefaultSubobject<UDragonsDogmaAttributeSet>(TEXT("AttributeSet"));
 }
 
 void ADragonsDogmaCharacter::BeginPlay()
@@ -156,11 +153,6 @@ void ADragonsDogmaCharacter::StopJumping()
 	{
 		ACharacter::StopJumping();
 	}
-}
-
-UAbilitySystemComponent* ADragonsDogmaCharacter::GetAbilitySystemComponent() const
-{
-	return AbilitySystemComponent;
 }
 
 void ADragonsDogmaCharacter::PossessedBy(AController* NewController)

@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
-#include "AbilitySystemInterface.h"
+#include "DragonsDogmaBaseCharacter.h"
 #include "DragonsDogmaCharacter.generated.h"
 
 class USpringArmComponent;
@@ -20,7 +20,7 @@ class UDragonsDogmaAttributeSet;
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
 UCLASS(config=Game)
-class ADragonsDogmaCharacter : public ACharacter, public IAbilitySystemInterface
+class ADragonsDogmaCharacter : public ADragonsDogmaBaseCharacter
 {
 	GENERATED_BODY()
 
@@ -75,8 +75,6 @@ public:
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
 public:
-	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
-
 	virtual void PossessedBy(AController* NewController) override;
 
 	virtual void Jump() override;
@@ -84,12 +82,6 @@ public:
 	virtual void StopJumping() override;
 
 protected:
-	UPROPERTY()
-	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
-
-	UPROPERTY()
-	TObjectPtr<UDragonsDogmaAttributeSet> AttributeSet;
-
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "GAS")
 	TSubclassOf<class UGameplayEffect> DefaultAttributes;
 
