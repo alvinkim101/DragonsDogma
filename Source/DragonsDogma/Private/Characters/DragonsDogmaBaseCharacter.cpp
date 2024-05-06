@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "DragonsDogmaBaseCharacter.h"
+#include "Characters/DragonsDogmaBaseCharacter.h"
 #include "DragonsDogmaAttributeSet.h"
 
 // Sets default values

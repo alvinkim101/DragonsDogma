@@ -1,7 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "DragonsDogmaGameMode.h"
-#include "DragonsDogmaCharacter.h"
+#include "Characters/DragonsDogmaCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
 ADragonsDogmaGameMode::ADragonsDogmaGameMode()

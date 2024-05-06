@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "GreatswordCombo.h"
+#include "Abilities/GreatswordCombo.h"
 #include "Abilities/Tasks/AbilityTask_PlayMontageAndWait.h" 
 #include "Abilities/Tasks/AbilityTask_WaitGameplayEvent.h" 
-#include "DragonsDogmaCharacter.h"
+#include "Characters/DragonsDogmaCharacter.h"
 #include "AbilitySystemComponent.h"
 
 void UGreatswordCombo::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
