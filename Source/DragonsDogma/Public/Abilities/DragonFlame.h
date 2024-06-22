@@ -41,6 +41,11 @@ protected:
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UAnimMontage> AbilityMontage;
 
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UGameplayEffect> GameplayEffectClass;
+
+	FActiveGameplayEffectHandle ActiveGameplayEffectHandle;
+
 	FName AbilityName{ "Ability.Dragon.Flame" };
 	FName CueName{ "GameplayCue.Dragon.Flame"};
 };

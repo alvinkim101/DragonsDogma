@@ -2,9 +2,10 @@
 
 
 #include "Abilities/DragonFlame.h"
-#include "Abilities/Tasks/AbilityTask_PlayMontageAndWait.h" 
-#include "Abilities/Tasks/AbilityTask_WaitGameplayEvent.h" 
-#include "GameplayCueNotify_Actor.h" 
+#include "Abilities/Tasks/AbilityTask_PlayMontageAndWait.h"
+#include "Abilities/Tasks/AbilityTask_WaitGameplayEvent.h"
+#include "GameplayCueNotify_Actor.h"
+#include "AbilitySystemComponent.h"
 
 UDragonFlame::UDragonFlame()
 {
@@ -36,12 +37,12 @@ void UDragonFlame::ActivateAbility(const FGameplayAbilitySpecHandle Handle, cons
 
 void UDragonFlame::OnFlameBegin(FGameplayEventData Data)
 {
-	K2_AddGameplayCue(FGameplayTag::RequestGameplayTag(CueName), FGameplayEffectContextHandle());
+	ActiveGameplayEffectHandle = BP_ApplyGameplayEffectToOwner(GameplayEffectClass);
 }
 
 void UDragonFlame::OnFlameEnd(FGameplayEventData Data)
 {
-	K2_RemoveGameplayCue(FGameplayTag::RequestGameplayTag(CueName));
+	BP_RemoveGameplayEffectFromOwnerWithHandle(ActiveGameplayEffectHandle);
 }
 
 void UDragonFlame::OnMontageCompleted()
